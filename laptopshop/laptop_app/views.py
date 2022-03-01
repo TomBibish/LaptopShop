@@ -8,6 +8,8 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from .custom_queries import get_top_laptops, get_stats_for_company, best_customer_by_reviews, customers_reviewed_all, \
+    cheapest_laptops_without_reviews, cheapest_laptops_highegst_avg
 from .models import *
 # Create your views here.
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -267,3 +269,45 @@ def best_companies(request):
             companies_dict[item.laptop.company.name]['items_count'] += item.amount
             companies_dict[item.laptop.company.name]['sum_count'] += (item.amount * item.laptop.price_euros)
     return Response(companies_dict)
+
+
+@api_view(['GET'])
+def best_laptops(request):
+    stats_result = get_top_laptops()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def best_companies_2(request):
+    stats_result = get_stats_for_company()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def best_customers(request):
+    stats_result = best_customer_by_reviews()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def customers_reviewed_all_laptops(request):
+    stats_result = customers_reviewed_all()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def cheapest_not_reviewed_laptops(request):
+    stats_result = cheapest_laptops_without_reviews()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def cheapest_laptops_best_reviews(request):
+    stats_result = cheapest_laptops_highegst_avg()
+    print(stats_result)
+    return Response(stats_result, status=status.HTTP_200_OK)
