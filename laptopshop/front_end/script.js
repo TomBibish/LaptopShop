@@ -3,7 +3,7 @@ async function load_laptops_data() {
       method: 'GET',
     };
 
-    fetch("http://127.0.0.1:8000/api/v1/best_5_laptops")
+    fetch("http://127.0.0.1:8000/api/v1/stats/cheapest_laptops_best_reviews")
         .then(response =>
         {
             if (!response.ok)
